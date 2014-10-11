@@ -31,12 +31,12 @@ return array(
 	),
 	#代码注释 不会显示出来
 	'/'	=>	array(
-		'node' => 'wrap',
+		'node' => 'del',
 		'arg'=>	array(
-			'scan'=>array(),
-			'preWrap' => '',
-			'suffWrap'=> '',
-			'context' => false,
+			'scan'=>array('InlineText','content'),
+// 			'preWrap' => '',
+// 			'suffWrap'=> '',
+// 			'context' => false,
 		),
 	),
 	#html注释
