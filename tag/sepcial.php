@@ -1,9 +1,9 @@
 <?php
 /**
- * ÌØÊâ×Ö·û×é³ÉµÄtagµÄÅäÖÃ
+ * ç‰¹æ®Šå­—ç¬¦ç»„æˆçš„tagçš„é…ç½®
  */
 return array(
-	#Ô­ÑùÊä³öÄÚÈİ
+	#åŸæ ·è¾“å‡ºå†…å®¹
 	'|'	=>	array(
 		'node'	=>	'wrap',
 		'arg'	=>	array(
@@ -11,7 +11,7 @@ return array(
 			'preWrap'=>'',
 		),
 	),
-	//µ¥ĞĞPHP´úÂë
+	//å•è¡ŒPHPä»£ç 
 	/* '-'	=>	array(
 		'node' => 'wrap',
 		'arg'=>	array(
@@ -20,7 +20,7 @@ return array(
 			'suffWrap'=> '?>',
 		),
 	), */
-	//PHP´úÂë
+	//PHPä»£ç 
 	'-'	=>	array(
 		'node' => 'wrap',
 		'arg'=>	array(
@@ -29,7 +29,7 @@ return array(
 			'suffWrap'=> '?>',
 		),
 	),
-	#´úÂë×¢ÊÍ ²»»áÏÔÊ¾³öÀ´
+	#ä»£ç æ³¨é‡Š ä¸ä¼šæ˜¾ç¤ºå‡ºæ¥
 	'/'	=>	array(
 		'node' => 'del',
 		'arg'=>	array(
@@ -39,7 +39,7 @@ return array(
 // 			'context' => false,
 		),
 	),
-	#html×¢ÊÍ
+	#htmlæ³¨é‡Š
 	'//'	=>	array(
 		'node' => 'wrap',
 		'arg'=>	array(

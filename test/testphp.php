@@ -18,3 +18,10 @@ EOF;
 $tpl = trim($tpl);
 $shaml = new Shaml;
 echo($shaml->compile($tpl));
+$tpl2 = <<<EOF
+- array()
+.row
+	/ comment no display
+yyyy
+EOF;
+echo($shaml->compile($tpl2));

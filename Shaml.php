@@ -145,8 +145,9 @@ class Shaml {
 	 * @param Node $node
 	 */
 	function dumpOne ($node){
-		$closeTag = $node->endDump();
-		$openTag = $node->dump();
+		$closeTag = $node->endDump();#结束标签内容
+		$openTag = $node->dump();#开始标签内容
+		$preOpenTag = '';#开始标签之前的崆（换行，缩进等）
 		if($node->getcontext()){
 			$this->dumpOld($node->getindentCnt());
 		}
@@ -154,13 +155,16 @@ class Shaml {
 		if (!$node->getpreIndent() && (!$this->lastNode || !$this->lastNode->getsuffIndent())) {
 			//当前节点不向上一节点靠拢
 			//前一节点不要求下一节点靠拢
-			empty($this->output) || $this->output .= "\n";
-			$this->output .=$node->getindentText();
+			empty($this->output) || $preOpenTag .= "\n";
+			$preOpenTag .=$node->getindentText();
 			$this->lineNodes = array($node);
 		}else {
 			$this->lineNodes[] = $node;
 		}
-		$this->output .= $openTag;
+		if (trim($openTag)) {
+			#如果开始标签里面没有内容，之前的内容都不输出
+			$this->output .= $preOpenTag.$openTag;
+		}
 		if($closeTag){
 			$this->stash[] = $node;
 		}
