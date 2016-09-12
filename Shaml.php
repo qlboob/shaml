@@ -260,7 +260,7 @@ class Shaml {
 	
 
 	function scanTag (){
-		$pattern = '/^((:?)\w[:-\w]*)/';
+		$pattern = '/^((:?)\w[:\-\w]*)/';
 		return $this->scanInput($pattern,'tag');
 	}
 	
@@ -405,6 +405,7 @@ class Shaml {
 
 	private function scanInput($regex,$type,$property=null){
 		$matches = array();
+		echo $regex."\n";
         if (preg_match($regex, $this->line, $matches)) {
             $this->consumeInput($matches[0]);
             if ($property) {
