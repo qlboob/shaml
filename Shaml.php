@@ -1,60 +1,60 @@
 <?php
 /**
- * Ààruby slim·ç¸ñµÄphpÄ£°åÒıÇæ
+ * ç±»ruby slimé£æ ¼çš„phpæ¨¡æ¿å¼•æ“
  * make U smile HTML abstraction markup language
  * @author lukeqin
  */
 class Shaml {
 	/**
-	* ½ÚµãÀàĞÍ
+	* èŠ‚ç‚¹ç±»å‹
 	*/ 
 	private $nodes = array();
 
 	/**
-	 * ËùÓĞµÄĞĞÊı¾İ
+	 * æ‰€æœ‰çš„è¡Œæ•°æ®
 	 */
 	private $lines;
 
 	/**
-	 * µ±Ç°´¦ÀíµÄĞĞºÅ£¬´Ó0¿ªÊ¼
+	 * å½“å‰å¤„ç†çš„è¡Œå·ï¼Œä»0å¼€å§‹
 	 */
 	private $curLineNo=0;
-	#µ±Ç°ĞĞÊı¾İ
+	#å½“å‰è¡Œæ•°æ®
 	private $line;
 
-	#ÒÑ¾­´æÔÚµÄ¿ªÊ¼±êÇ©
+	#å·²ç»å­˜åœ¨çš„å¼€å§‹æ ‡ç­¾
 	private $stash = array();
 	
 	/**
-	 * @var Node ÉÏÒ»´ÎÊä³öµÄÔªËØ
+	 * @var Node ä¸Šä¸€æ¬¡è¾“å‡ºçš„å…ƒç´ 
 	 */
 	private $lastNode;
 	
 	/**
-	 * @var array µ±Ç°ĞĞÊä³öµÄ½Úµã¼¯ºÏ
+	 * @var array å½“å‰è¡Œè¾“å‡ºçš„èŠ‚ç‚¹é›†åˆ
 	 */
 	private $lineNodes=array();
 
-	#µ±Ç°ĞĞĞÅÏ¢
+	#å½“å‰è¡Œä¿¡æ¯
 	private $curLineInfo = array();
 	/**
-	 * ¶ÔÍâÊä³öÄÚÈİ
+	 * å¯¹å¤–è¾“å‡ºå†…å®¹
 	 */
 	private $output;
 	function __construct (){
-		#¼ÓÔØ½Úµã;
+		#åŠ è½½èŠ‚ç‚¹;
 		$nodesFiles = glob(dirname(__FILE__).'/node/*Node.php');
 		foreach($nodesFiles as $f){
 			include_once $f;
 			$clsName = basename($f,'.php');
 			$this->nodes[] = $clsName;
 		}
-		#¼ÓÔØÅäÖÃ
+		#åŠ è½½é…ç½®
 		$configFiles = glob(dirname(__FILE__).'/config/*.php');
 		foreach($configFiles as $f){
 				self::config(include $f);
 		}
-		#¼ÓÔØtag
+		#åŠ è½½tag
 		$tagFiles = glob(dirname(__FILE__).'/tag/*.php');
 		foreach($tagFiles as $f){
 				self::tag(include $f);
@@ -112,9 +112,9 @@ class Shaml {
 	
 
 	/**
-	 * ±àÒë
-	 * @param string $content ±»±àÒëµÄÄ£°å
-	 * @return string ±àÒëºÃµÄÄ£°å
+	 * ç¼–è¯‘
+	 * @param string $content è¢«ç¼–è¯‘çš„æ¨¡æ¿
+	 * @return string ç¼–è¯‘å¥½çš„æ¨¡æ¿
 	 */
 	function compile ($content){
 		$content = preg_replace('/\r\n|\r/',"\n",$content);
@@ -141,20 +141,20 @@ class Shaml {
 	}
 
 	/**
-	 * µ¼³öÒ»¸ö½Úµã
+	 * å¯¼å‡ºä¸€ä¸ªèŠ‚ç‚¹
 	 * @param Node $node
 	 */
 	function dumpOne ($node){
-		$closeTag = $node->endDump();#½áÊø±êÇ©ÄÚÈİ
-		$openTag = $node->dump();#¿ªÊ¼±êÇ©ÄÚÈİ
-		$preOpenTag = '';#¿ªÊ¼±êÇ©Ö®Ç°µÄáÇ£¨»»ĞĞ£¬Ëõ½øµÈ£©
+		$closeTag = $node->endDump();#ç»“æŸæ ‡ç­¾å†…å®¹
+		$openTag = $node->dump();#å¼€å§‹æ ‡ç­¾å†…å®¹
+		$preOpenTag = '';#å¼€å§‹æ ‡ç­¾ä¹‹å‰çš„å´†ï¼ˆæ¢è¡Œï¼Œç¼©è¿›ç­‰ï¼‰
 		if($node->getcontext()){
 			$this->dumpOld($node->getindentCnt());
 		}
-		#Èç¹û²»ÏòÇ°Ëõ½ø£¬Êä³öËõ½øÎÄ±¾
+		#å¦‚æœä¸å‘å‰ç¼©è¿›ï¼Œè¾“å‡ºç¼©è¿›æ–‡æœ¬
 		if (!$node->getpreIndent() && (!$this->lastNode || !$this->lastNode->getsuffIndent())) {
-			//µ±Ç°½Úµã²»ÏòÉÏÒ»½Úµã¿¿Â£
-			//Ç°Ò»½Úµã²»ÒªÇóÏÂÒ»½Úµã¿¿Â£
+			//å½“å‰èŠ‚ç‚¹ä¸å‘ä¸Šä¸€èŠ‚ç‚¹é æ‹¢
+			//å‰ä¸€èŠ‚ç‚¹ä¸è¦æ±‚ä¸‹ä¸€èŠ‚ç‚¹é æ‹¢
 			empty($this->output) || $preOpenTag .= "\n";
 			$preOpenTag .=$node->getindentText();
 			$this->lineNodes = array($node);
@@ -162,7 +162,7 @@ class Shaml {
 			$this->lineNodes[] = $node;
 		}
 		if (trim($openTag)) {
-			#Èç¹û¿ªÊ¼±êÇ©ÀïÃæÃ»ÓĞÄÚÈİ£¬Ö®Ç°µÄÄÚÈİ¶¼²»Êä³ö
+			#å¦‚æœå¼€å§‹æ ‡ç­¾é‡Œé¢æ²¡æœ‰å†…å®¹ï¼Œä¹‹å‰çš„å†…å®¹éƒ½ä¸è¾“å‡º
 			$this->output .= $preOpenTag.$openTag;
 		}
 		if($closeTag){
@@ -172,16 +172,16 @@ class Shaml {
 	}
 	
 	/**
-	 * µ¼³öÒÔÇ°Ñ¹ÈëµÄ½Úµã
-	 * @param integer $indentCnt µ¼³öÒÔÇ°Ñ¹ÈëµÄ½ÚµãËõ½øÊıÁ¿
+	 * å¯¼å‡ºä»¥å‰å‹å…¥çš„èŠ‚ç‚¹
+	 * @param integer $indentCnt å¯¼å‡ºä»¥å‰å‹å…¥çš„èŠ‚ç‚¹ç¼©è¿›æ•°é‡
 	 */
 	function dumpOld($indentCnt) {
 		if($this->stash){
 			$pop=end($this->stash);
 			while($pop && $pop->getindentCnt()>=$indentCnt){
 				if (!$pop->getinlineText() && $this->lastNode !== $pop && !in_array($pop, $this->lineNodes)){
-					//Èç¹û´æÔÚµ±Ç°ĞĞµÄÎÄ±¾ »òÕßÃ»ÓĞ°üº¬×ÓÔªËØµÄ±êÇ©
-					//	²»ĞèÒªÊä»»ĞĞºÍËõ½øÎÄ±¾
+					//å¦‚æœå­˜åœ¨å½“å‰è¡Œçš„æ–‡æœ¬ æˆ–è€…æ²¡æœ‰åŒ…å«å­å…ƒç´ çš„æ ‡ç­¾
+					//	ä¸éœ€è¦è¾“æ¢è¡Œå’Œç¼©è¿›æ–‡æœ¬
 					$this->output .= "\n".$pop->getindentText();
 				}
 				$this->output .= $pop->endDump();
@@ -193,7 +193,7 @@ class Shaml {
 	
 
 	/**
-	 * Îª±¾ĞĞ´´½¨Ò»¸ö½Úµã
+	 * ä¸ºæœ¬è¡Œåˆ›å»ºä¸€ä¸ªèŠ‚ç‚¹
 	 * @return Node
 	 */
 	function createNode (){
@@ -207,13 +207,13 @@ class Shaml {
 				$method = 'scan'.$v;
 				$this->$method();
 			}
-			#×ª»»³ÉÊôĞÔ
+			#è½¬æ¢æˆå±æ€§
 			if (isset($tagConf['2attr'])) {
 				$this->inlineText2Attr($tagConf['2attr']);
 			}
 			
 		}else {
-			//Ô­ÑùÊä³ö
+			//åŸæ ·è¾“å‡º
 			$node = new TextNode();
 		}
 		$node->config($this->curLineInfo);
@@ -223,7 +223,7 @@ class Shaml {
 	
 
 	/**
-	 * É¨ÃèËõ½ø
+	 * æ‰«æç¼©è¿›
 	 */
 	function scanIndent (){
 		$cnt = $this->indentCnt($this->line);
@@ -236,7 +236,7 @@ class Shaml {
 	}
 
 	/**
-	 * ¼ÆËãËõ½øµÄÊıÁ¿
+	 * è®¡ç®—ç¼©è¿›çš„æ•°é‡
 	 */
 	private function indentCnt ($str){
 		$indentCnt = self::config('indentCnt');
@@ -251,7 +251,7 @@ class Shaml {
 	}
 	
 	/**
-	 * Ëõ½øµÄÎÄ±¾
+	 * ç¼©è¿›çš„æ–‡æœ¬
 	 */
 	private function indentText ($cnt){
 		return str_pad('',$cnt,self::config('indent'));
@@ -265,12 +265,17 @@ class Shaml {
 	}
 	
 	/**
-	 * É¨ÃèÌØÊâ×Ö·û×é³ÉµÄtag
+	 * æ‰«æç‰¹æ®Šå­—ç¬¦ç»„æˆçš„tag
 	 */
 	function scanSpecialTag() {
 		$specialTag = self::config('specialTag');
-		//±£Ö¤³¤µÄÌØÊâ×Ö·ûÏÈ²éÕÒ
-		usort($specialTag, create_function('$a,$b', '$al=strlen($a);$bl=strlen($b);return -($al-$bl)%2;'));
+		//ä¿è¯é•¿çš„ç‰¹æ®Šå­—ç¬¦å…ˆæŸ¥æ‰¾
+		//usort($specialTag, create_function('$a,$b', '$al=strlen($a);$bl=strlen($b);return -($al-$bl)%2;'));
+		usort($specialTag, function($a,$b){
+			$al=strlen($a);
+			$bl=strlen($b);
+			return -($al-$bl)%2;
+		});
 		foreach ($specialTag as $p){
 			if ($p === $this->line || 0===strpos($this->line, $p.' ') ) {
 				$this->curLineInfo['tag'] = $p;
@@ -283,7 +288,7 @@ class Shaml {
 	
 	function scanIdClassTag() {
 		$ps	=	array(
-			//ÕâÊÇ¿ÉÄÜ´æÔÚ¶à¸öclassµÄÇé¿ö
+			//è¿™æ˜¯å¯èƒ½å­˜åœ¨å¤šä¸ªclassçš„æƒ…å†µ
 			'!^#[\w-]+(\.[\w-]+?)*?<?>?( |$)!',
 			'!^(\.[\w-]+)+?<?>?( |$)!'
 		);
@@ -322,9 +327,9 @@ class Shaml {
 
 	function scanAttr (){
 			$pattern = array(
-					'#^\s+(([^ ]+?)\?)?([-\w]+)="([^"]*?)"#',#Ë«ÒıºÅµÄÇé¿ö
-					"#^\s+(([^ ]+?)\?)?([-\w]+)='([^']*?)'#",#µ¥ÒıºÅµÄÇé¿ö
-					'#^\s+(([^ ]+?)\?)?([-\w]+)=([^ ]+)#',#µÈºÅºóÖ±½ÓĞ´ÊôĞÔÖµµÄÇé¿ö
+					'#^\s+(([^ ]+?)\?)?([-\w]+)="([^"]*?)"#',#åŒå¼•å·çš„æƒ…å†µ
+					"#^\s+(([^ ]+?)\?)?([-\w]+)='([^']*?)'#",#å•å¼•å·çš„æƒ…å†µ
+					'#^\s+(([^ ]+?)\?)?([-\w]+)=([^ ]+)#',#ç­‰å·åç›´æ¥å†™å±æ€§å€¼çš„æƒ…å†µ
 			);
 			while(true){
 				$br = true;
@@ -359,12 +364,17 @@ class Shaml {
 	}
 	
 	/**
-	 * °ÑinlineText×ª»»³ÉÊôĞÔ
+	 * æŠŠinlineTextè½¬æ¢æˆå±æ€§
 	 * @param array $attrNames
 	 */
 	function inlineText2Attr($attrNames) {
 		if (empty($this->curLineInfo['attr']) && !empty($this->curLineInfo['inlineText'])) {
-			usort($attrNames, create_function('$a,$b', '$al=count($a);$bl=count($b);return -($al-$bl)%2;'));
+			//usort($attrNames, create_function('$a,$b', '$al=count($a);$bl=count($b);return -($al-$bl)%2;'));
+			usort($attrNames, function($a,$b){
+				$al=count($a);
+				$bl=count($b);
+				return -($al-$bl)%2;
+			});
 			$attrValues = explode(' ', $this->curLineInfo['inlineText']);
 			$attrValCnt = count($attrValues);
 			foreach ($attrNames as $attrs){
